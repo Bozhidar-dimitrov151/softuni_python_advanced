@@ -1,16 +1,27 @@
-# This is a sample Python script.
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from skimage import data, io, filters
+from scipy.ndimage import convolve
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+image = "download.jfif"
 
+image_df = io.imread(image)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+r = image_df[:,:, 0]
+g = image_df[:,:, 1]
+b = image_df[:,:, 2]
 
+# plt.imshow(g, cmap="grey")
+# plt.show()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+kernel = np.array([
+    [ 0, -1,  0],
+    [-1,  5, -1],
+    [ 0, -1,  0]
+])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+filtered = convolve(g, kernel)
+
+plt.imshow(filtered, cmap="grey")
+plt.show()
